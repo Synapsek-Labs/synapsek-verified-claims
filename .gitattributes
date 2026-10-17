@@ -1,0 +1,10 @@
+# SVC claims, evidence, and pinned artifacts are hash-pinned. Any line-ending
+# conversion (e.g. CRLF on Windows) silently corrupts L1/L2/L3, so the whole
+# repo is pinned as non-text. Source/docs are explicitly LF-normalized.
+* -text
+*.py text eol=lf
+*.md text eol=lf
+*.toml text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.sh text eol=lf

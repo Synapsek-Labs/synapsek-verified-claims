@@ -63,3 +63,39 @@ Cherry; the remaining ~10 minutes are YOUR calls (org, account, publish).
 Unpublish is one `twine`/GitHub action per surface; the tag is the anchor.
 Nothing here touches the RunPod pod, the compiler key, or any model weights
 beyond the one example artifact.
+---
+
+# v0.1.1 (2026-10-17 audit fix release) — checklist
+
+Independent audit of v0.1.0 found 5 issues (1 critical, 2 high, 2 medium).
+All fixed, tested, and committed at `3aae6b9` (tag `v0.1.1`), built into
+`dist/synapsek_claims-0.1.1.{tar.gz,whl}`, clean-venv install verified.
+
+## Already done (Cherry)
+- [x] 1 (critical): script/rerun execution requires `--rerun` consent AND
+      L1+L2+L3 pass; no-shell executor (shlex argv)
+- [x] 2 (high): status from recomputed value; non-finite guards (L4/L4b/L5)
+- [x] 3 (high): derivation inputs manifest-pinned + path-containment checked
+- [x] 4: README verification levels (read/recompute/re-execute), exclusivity
+      claims removed; both example claims re-signed with level disclosures;
+      registry regenerated
+- [x] 5: CI workflow (3 OS x 2 Python, clean sdist install, both examples,
+      negative control); explicit UTF-8 I/O everywhere
+- [x] 29/29 tests (incl. 13 new audit regressions); both public claims PASS
+      (dedup incl. bit-exact --rerun); tamper negative control FAILs
+- [x] Web demo engine (ocean.html Verified Lab) patched to identical
+      semantics + browser E2E re-verified + deployed to Paragon
+
+## Your steps (tokens as files, never chat)
+1. GitHub fine-grained PAT (repo-synapsek-verified-claims, Contents rw) →
+   save to `/root/.git/gh-20261017`, chmod 600.
+2. PyPI classic token → save to `/root/.git/pypi-20261017`, chmod 600.
+3. Tell me "tokens placed". I will then, in order:
+   - push main + tag v0.1.1 (CI runs automatically — badge goes green)
+   - create GitHub release v0.1.1 with the audit-fix notes (no new asset;
+     encoder.pt already exists under v0.1.0)
+   - `twine upload dist/` → PyPI 0.1.1
+   - verify: fresh clone verify of both claims, clean-venv PyPI install
+   - shred both token files
+4. Optional afterwards: `pip install -U synapsek-claims` on the demo box if
+   you ever verify locally there.

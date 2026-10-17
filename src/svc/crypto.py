@@ -36,7 +36,8 @@ def gen_keypair():
 
 
 def read_key_file(path: str) -> str:
-    return open(path).read().strip()
+    with open(path, encoding="utf-8") as fh:
+        return fh.read().strip()
 
 
 def sign(privkey_b64: str, payload: dict) -> str:

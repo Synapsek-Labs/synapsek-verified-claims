@@ -15,4 +15,4 @@ Verification is 5 layers, all buyer-side, no trust in the issuer:
 
 Design doc: docs/DESIGN.md. Examples: examples/.
 """
-__version__ = "0.1.0"
+__version__ = "0.1.1"

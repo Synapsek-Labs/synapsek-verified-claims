@@ -25,9 +25,11 @@ def test_tampered_artifact_fails_L2(keys, tmp_path):
 def test_tampered_evidence_fails_L3(keys, tmp_path):
     sealed, ds = seal(keys, tmp_path)
     p = ds + "/evidence/run1.jsonl"
-    lines = open(p).read().splitlines()
+    with open(p, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
     lines[1] = json.dumps({"x": 2.0, "y": 0.99})
-    open(p, "w").write("\n".join(lines) + "\n")
+    with open(p, "w", encoding="utf-8") as fh:
+        fh.write("\n".join(lines) + "\n")
     _, pub = keys
     rep = verify_claim(sealed, ds, pub)
     assert not rep["ok"]

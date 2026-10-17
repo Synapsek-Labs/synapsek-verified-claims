@@ -1,19 +1,39 @@
 """Claim derivation — the anti-overclaiming layer.
 
-The BUYER re-derives every claim status from measured values + the
-documented thresholds, and re-derives the recommendation set from the
-claim statuses. If the issuer claimed more than the numbers support,
-verification FAILS. This is the property that makes SVC different from a
-self-reported eval dashboard.
+The BUYER re-derives every claim status from the RECOMPUTED (buyer-derived)
+values + the documented thresholds, and re-derives the recommendation set
+from the claim statuses. If the issuer claimed more than the numbers
+support, verification FAILS. This is the property that makes SVC different
+from a self-reported eval dashboard.
+
+Non-finite values or threshold bounds can never be 'proven' — NaN would
+otherwise silently break >= / <= comparisons.
 """
+import math
 
 
 def status_from_threshold(threshold: dict, value: float) -> str:
-    """'proven' iff value satisfies every bound in threshold."""
-    if "min" in threshold and not (value >= threshold["min"]):
+    """'proven' iff the RECOMPUTED value satisfies every bound in threshold.
+
+    Any non-finite value or bound yields 'not_proven' (conservative).
+    """
+    try:
+        v = float(value)
+    except (TypeError, ValueError):
         return "not_proven"
-    if "max" in threshold and not (value <= threshold["max"]):
+    if not math.isfinite(v):
         return "not_proven"
+    for bound in ("min", "max"):
+        if bound not in threshold:
+            continue
+        try:
+            b = float(threshold[bound])
+        except (TypeError, ValueError):
+            return "not_proven"
+        if not math.isfinite(b):
+            return "not_proven"
+        if (bound == "min" and not (v >= b)) or (bound == "max" and not (v <= b)):
+            return "not_proven"
     return "proven"
 
 

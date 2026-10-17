@@ -42,4 +42,20 @@ No credit required; credited with permission by default.
 
 The threat model and the layer-by-layer failure table are in
 [docs/DESIGN.md](docs/DESIGN.md). The test suite (`tests/`) covers tamper at
-every layer; new bypass classes should add a regression test.
+every layer plus regression tests for each 2026-10-17 independent-audit
+finding (execution consent gates, no-shell execution, status from
+recomputed value, finite guards, manifest/path-escape guards, UTF-8); new
+bypass classes should add a regression test.
+
+## Audit history
+
+- **2026-10-17** — independent audit of v0.1.0 confirmed working
+  verification and found: (1) script execution reachable without `--rerun`
+  and after layer failures, via a shell command string; (2) claim status
+  derived from the claimed value rather than the recomputed one, with
+  NaN tolerances disabling checks; (3) `file:` derivation inputs not
+  required to be manifest-pinned; (4) README overstatement; (5)
+  quickstart/reproducibility gaps. All fixed in **v0.1.1** with regression
+  tests (`tests/test_audit_fixes.py`). The auditor's suggested positioning
+  — "portable AI evaluation receipts: verify who issued a result, which
+  evidence supports it, and whether you can reproduce it" — is adopted.

@@ -12,8 +12,11 @@ Attacker/defect goals, and the layer that stops each:
 | evidence trace edited, reordered, truncated | L3 (file sha256 + item count + Merkle root) |
 | claimed value not actually supported by the evidence | L4 (value recomputed from evidence by the derivation rule) |
 | claimed value not actually reproducible by re-executing the pinned eval | L4b (`--rerun`) |
-| status overstated vs value+threshold | L5 (status re-derived) |
+| status overstated vs value+threshold | L5 (status re-derived from the **recomputed** value) |
 | recommendation includes a not-proven label / omits a not-proven label | L5 (recommendation set re-derived) |
+| derivation rule reads a file outside the pinned manifest | L4 (manifest membership + path-containment check) |
+| NaN/Inf in a value or tolerance quietly disabling a check | L4/L4b/L5 (non-finite inputs always fail) |
+| code execution without buyer consent, or after an L1/L2/L3 failure | L4/L4b (consent + layer gates; no shell) |
 | claim circulated that was never registered | `--registry` hash match |
 
 What the layers do **not** stop: a buyer running a `script:` rule whose
@@ -62,6 +65,25 @@ runs `python3 <path>` with cwd = claim dir and a timeout; its **final stdout
 line must be one JSON object** and the named field must be numeric. This
 keeps the recompute path auditable: the buyer sees exactly which file runs,
 with which cwd, and what field is compared.
+
+Execution safety (2026-10-17 audit hardening):
+
+- `script:` (L4) and `rerun:` (L4b) commands run **only** when the buyer
+  explicitly passes `--rerun` **and** L1+L2+L3 all passed. Otherwise the
+  layer fails with a "NOT executed" message — a value that can only come
+  from execution is never silently treated as verified.
+- No shell: the pinned command string is parsed with `shlex` into an argv
+  list and executed directly (`shell=False`). Metacharacters (`;`, `&&`,
+  `|`, backticks, redirections) are inert; a malformed string simply fails.
+- Every file a derivation rule reads (`file:`, `attested:`, `script:`) must
+  be a manifest entry that passed L2/L3, resolved strictly inside the claim
+  directory (absolute paths, `..` traversal, and symlink escapes are
+  rejected).
+- Non-finite values — claimed, recomputed, reproduced, or in any tolerance
+  or threshold bound — always fail; NaN can never "satisfy" a comparison.
+- Claim status is derived from the **recomputed** value, never the claimed
+  one: a claimed 0.57 against a threshold of 0.56 with evidence at 0.55
+  (within tolerance) fails L5 as an overclaim.
 
 ## Recommendation semantics
 

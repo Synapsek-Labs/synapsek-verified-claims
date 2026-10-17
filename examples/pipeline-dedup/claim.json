@@ -27,7 +27,8 @@
   "Measured on CPU (torch 2.14.1+cpu). The original G7 attestation ran on a CUDA A40; this value reproduces the attested v3b seed1 figure 0.4172.",
   "Other v3b seeds (from the G7 pre-registration, same slice): 0.4075, 0.4210. This claim covers seed1 only.",
   "Scope: document-similarity ordering for duplicate detection. This claim does NOT attest QA, retrieval, summarization, or topic-generation (see the v1.1 cartridge attestation for below-bar disclosures on those).",
-  "The 100-doc set and encoder weights are pinned by hash in this claim; a buyer re-running code/eval_dedup.py re-derives the value from these exact artifacts."
+  "The 100-doc set and encoder weights are pinned by hash in this claim; a buyer re-running code/eval_dedup.py re-derives the value from these exact artifacts.",
+  "Verification levels per number: L4 reads spearman_rho from the Merkle-pinned 1-item summary (evidence/summary.json) \u2014 a third party has independently recomputed the Spearman from all 4,950 rows of evidence/pairs.jsonl and matched the value. L4b (--rerun) goes one level further: it RE-EXECUTES the pinned eval on the pinned weights + docs and reproduces the value bit-exactly on CPU. The pinned eval's command string is visible, hash-pinned, and runs only with explicit --rerun consent, without a shell."
  ],
  "issuer": {
   "id": "synapsek.compiler/v1",
@@ -70,7 +71,7 @@
    "dedup_similarity"
   ]
  },
- "signature": "PsftTBBMR-qqGTSgykahlmHkwYD5kYukt_9kqKdpIktnpGUseTEYyMTvXxl9vIFT4wvt7gVGS0dddE4PSfJ_BA",
+ "signature": "hoAqfjG_03lfS39BD5KNkh4-efFiN7gPOOjDcoaEx6mBrubuquB5A_Qy6XUG7YMamP6g9q9avT3LN2DDRUWoCw",
  "subject": {
   "base_dir": ".",
   "description": "Synapsek knowledge encoder (v3b line, seed1): 2-layer 256-d transformer + Perceiver resampler emitting K=128 latents in a universal space. This claim attests its DOCUMENT-DUPLICATE DETECTION fidelity: Spearman correlation between latent mean-pooled cosine similarity and token-set Jaccard over a pinned 100-doc holdout (4950 pairs).",

@@ -14,7 +14,8 @@ import sys
 
 
 def _read_json(p):
-    return json.load(open(p))
+    with open(p, encoding="utf-8") as fh:
+        return json.load(fh)
 
 
 def cmd_attest(a):
@@ -28,7 +29,7 @@ def cmd_attest(a):
     sealed = seal_claim(claim, a.base_dir, read_key_file(a.key),
                         issuer_id=claim.get("issuer", {}).get("id", "unknown"))
     out = a.out or os.path.join(a.base_dir, "claim.json")
-    with open(out, "w") as f:
+    with open(out, "w", encoding="utf-8") as f:
         json.dump(sealed, f, indent=1, sort_keys=True)
         f.write("\n")
     print(f"sealed {sealed['claim_id']} -> {out}")
@@ -91,10 +92,10 @@ def cmd_keygen(a):
     priv, pub = gen_keypair()
     kp = os.path.join(a.out_dir, "issuer_ed25519")
     pp = os.path.join(a.out_dir, "issuer_ed25519.pub")
-    with open(kp, "w") as f:
+    with open(kp, "w", encoding="utf-8") as f:
         f.write(priv + "\n")
     os.chmod(kp, 0o600)
-    with open(pp, "w") as f:
+    with open(pp, "w", encoding="utf-8") as f:
         f.write(pub + "\n")
     print(f"keypair written: {kp} (mode 600) / {pp}")
 

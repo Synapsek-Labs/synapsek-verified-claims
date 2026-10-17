@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  verify:
+    name: "py${{ matrix.python }} / ${{ matrix.os }}"
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: Install from sdist (clean-install path)
+        run: |
+          python -m pip install -U pip
+          pip install build
+          python -m build --sdist
+          pip install dist/*.tar.gz[test]
+        shell: bash
+
+      - name: Test suite
+        run: python -m pytest tests/ -q
+        shell: bash
+
+      - name: "Verify shipped example — cartridge (L1-L5 + registry)"
+        run: |
+          svc verify examples/cartridge-v11/claim.json \
+            --trusted-pubkey examples/trusted-issuer.pub \
+            --base-dir examples/cartridge-v11 \
+            --registry registry/registry.json
+        shell: bash
+
+      - name: "Verify shipped example — dedup (L1-L5; no rerun, CI has no torch)"
+        run: |
+          mkdir -p examples/pipeline-dedup/artifact
+          curl -sSL -o examples/pipeline-dedup/artifact/encoder.pt \
+            https://github.com/${{ github.repository }}/releases/download/v0.1.0/encoder.pt
+          svc verify examples/pipeline-dedup/claim.json \
+            --trusted-pubkey examples/trusted-issuer.pub \
+            --base-dir examples/pipeline-dedup
+        shell: bash
+
+      - name: Negative control — tampered claim must FAIL (exit 1)
+        run: |
+          set -e
+          T="$RUNNER_TEMP/tampered-claim"
+          mkdir -p "$RUNNER_TEMP"
+          cp -r examples/cartridge-v11 "$T"
+          python - "$T" <<'EOF'
+          import json, sys
+          p = sys.argv[1] + "/claim.json"
+          c = json.load(open(p, encoding="utf-8"))
+          c["claims"][0]["value"] = c["claims"][0]["value"] + 0.01
+          json.dump(c, open(p, "w", encoding="utf-8"), indent=1)
+          EOF
+          if svc verify "$T/claim.json" \
+              --trusted-pubkey examples/trusted-issuer.pub \
+              --base-dir "$T" >/dev/null 2>&1; then
+            echo "NEGATIVE CONTROL BROKE: tampered claim passed" >&2
+            exit 1
+          fi
+          echo "negative control ok: tampered claim failed as required"
+        shell: bash

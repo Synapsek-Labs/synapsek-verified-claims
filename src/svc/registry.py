@@ -22,13 +22,14 @@ def _path(reg, *parts):
 def load(registry_path: str) -> dict:
     if not os.path.exists(registry_path):
         return {"svc_version": SCHEMA_VERSION, "entries": []}
-    return json.load(open(registry_path))
+    with open(registry_path, encoding="utf-8") as fh:
+        return json.load(fh)
 
 
 def save(registry_path: str, reg: dict):
     os.makedirs(os.path.dirname(os.path.abspath(registry_path)), exist_ok=True)
     tmp = registry_path + ".tmp"
-    with open(tmp, "w") as f:
+    with open(tmp, "w", encoding="utf-8") as f:
         json.dump(reg, f, indent=1, sort_keys=True)
         f.write("\n")
     os.replace(tmp, registry_path)

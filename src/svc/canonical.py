@@ -51,5 +51,5 @@ def merkle_root(items) -> str:
 
 def load_jsonl(path: str) -> list:
     """Per-item trace JSONL -> list of dicts (order-preserving)."""
-    with open(path) as f:
+    with open(path, encoding="utf-8") as f:
         return [json.loads(line) for line in f if line.strip()]

@@ -18,9 +18,17 @@ svc verify claim.json --trusted-pubkey ../trusted-issuer.pub --base-dir . --reru
 ```
 
 **Note:** `artifact/encoder.pt` (160 MB) is distributed as a GitHub release
-asset (v0.1.0), not in git. Fresh clones must download it into
-`artifact/encoder.pt` before verify (L2 will report it missing otherwise).
-The pinned tokenizer files under `code/tokenizer/` are committed.
+asset (v0.1.0), not in git. Fresh clones must fetch it before verify (L2 will
+report it missing otherwise):
+
+```bash
+cd examples/pipeline-dedup
+mkdir -p artifact
+curl -L -o artifact/encoder.pt \
+  "https://github.com/Synapsek-Labs/synapsek-verified-claims/releases/download/v0.1.0/encoder.pt"
+```
+
+(The pinned tokenizer files under `code/tokenizer/` are committed.)
 
 ## cartridge-v11
 

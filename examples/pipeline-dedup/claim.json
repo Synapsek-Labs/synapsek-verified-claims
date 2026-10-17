@@ -1,0 +1,147 @@
+{
+ "claim_id": "synapsek.claim/knowledge-encoder-dedup/v3b-seed1",
+ "claims": [
+  {
+   "derivation": {
+    "evidence": "evidence/pairs.jsonl",
+    "rerun": {
+     "command": "python3 code/eval_dedup.py",
+     "metric_field": "spearman_rho",
+     "tolerance": 1e-06
+    },
+    "rule": "file:evidence/summary.json#spearman_rho"
+   },
+   "id": "dedup_spearman",
+   "label": "dedup_similarity",
+   "metric": "spearman_rho (latent-cos vs token-jaccard, 4950 pairs)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.4
+   },
+   "unit": "spearman",
+   "value": 0.4172424238214698
+  }
+ ],
+ "created_at": "2026-10-17T07:29:19Z",
+ "disclosures": [
+  "Measured on CPU (torch 2.14.1+cpu). The original G7 attestation ran on a CUDA A40; this value reproduces the attested v3b seed1 figure 0.4172.",
+  "Other v3b seeds (from the G7 pre-registration, same slice): 0.4075, 0.4210. This claim covers seed1 only.",
+  "Scope: document-similarity ordering for duplicate detection. This claim does NOT attest QA, retrieval, summarization, or topic-generation (see the v1.1 cartridge attestation for below-bar disclosures on those).",
+  "The 100-doc set and encoder weights are pinned by hash in this claim; a buyer re-running code/eval_dedup.py re-derives the value from these exact artifacts."
+ ],
+ "issuer": {
+  "id": "synapsek.compiler/v1",
+  "public_key": "MHYuRK-KEKtx3w-MQYnEJ7oiHWWJsJfP0WzNwn_Fi1M"
+ },
+ "pinned": {
+  "config": {
+   "K": 128,
+   "chunk_size": 2048,
+   "d_latent": 256,
+   "d_model": 256,
+   "dim_feedforward": 512,
+   "max_chunks": 64,
+   "max_doc_tokens": 8192,
+   "nhead": 4,
+   "num_layers": 2,
+   "sha256": "0198bd1078757fc280d8a285cd4c12c7585baee05ce5ef36e9d3aeadb5e0775a"
+  },
+  "dataset": {
+   "n": 100,
+   "note": "same holdout slice as the attested G7 dedup eval",
+   "offset": 200,
+   "source": "hotpotqa"
+  },
+  "environment": {
+   "device": "cpu",
+   "python": "3.14.7",
+   "torch": "2.14.1+cpu",
+   "transformers": "5.19.0"
+  }
+ },
+ "recommendation": {
+  "not_recommended_for": [
+   "full_document_qa",
+   "retrieval",
+   "summarization",
+   "topic_generation"
+  ],
+  "recommended_for": [
+   "dedup_similarity"
+  ]
+ },
+ "signature": "PsftTBBMR-qqGTSgykahlmHkwYD5kYukt_9kqKdpIktnpGUseTEYyMTvXxl9vIFT4wvt7gVGS0dddE4PSfJ_BA",
+ "subject": {
+  "base_dir": ".",
+  "description": "Synapsek knowledge encoder (v3b line, seed1): 2-layer 256-d transformer + Perceiver resampler emitting K=128 latents in a universal space. This claim attests its DOCUMENT-DUPLICATE DETECTION fidelity: Spearman correlation between latent mean-pooled cosine similarity and token-set Jaccard over a pinned 100-doc holdout (4950 pairs).",
+  "evidence": [
+   {
+    "merkle_root": "61523b03aea345f1df515e787bb0f8e55880f7e22349045958876af90052f60c",
+    "n_items": 4950,
+    "path": "evidence/pairs.jsonl",
+    "sha256": "40ff4ff3a92010f0507e61315a3298d52f218255a6dd670f456506d133b949ad"
+   },
+   {
+    "merkle_root": "39f292aa2a8222a8f79864e7d920e2d0990c2b5f84c1070e1ecb91549ce96e22",
+    "n_items": 1,
+    "path": "evidence/summary.json",
+    "sha256": "75edacb45eb8f306b42d59991711fac2bccc7136a50018735489a0ad7c4b7b69"
+   }
+  ],
+  "files": [
+   {
+    "path": "artifact/encoder.pt",
+    "role": "artifact",
+    "sha256": "9ec407e8c8ff22afaee4d659d6ca129ea99c045820b1ecbb18b90f42fb818eb2"
+   },
+   {
+    "path": "code/eval_dedup.py",
+    "role": "code",
+    "sha256": "1f2780c8e85bc5d1b4a24c48387f9aae433b12aa56ce7fd6a0ddc20f3d8144e7"
+   },
+   {
+    "path": "code/encoder.py",
+    "role": "code",
+    "sha256": "1ad68b1d28e9335b143de490cd917579dfa7b531698758443c7a2a51620b33f6"
+   },
+   {
+    "path": "code/layers.py",
+    "role": "code",
+    "sha256": "63d2cd79d40a54b78101ac5809c11520d231576a63f4bf639e074e9adb5549ee"
+   },
+   {
+    "path": "code/config.py",
+    "role": "code",
+    "sha256": "a32bc36e722aabac84c3441b42f21dd36a91455676c4a28e4146b875169b2bf3"
+   },
+   {
+    "path": "code/tokenizer/tokenizer.json",
+    "role": "data",
+    "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+   },
+   {
+    "path": "code/tokenizer/tokenizer_config.json",
+    "role": "data",
+    "sha256": "c91efca15ceff6e9ee9424db58a6f59cd41294e550a86cbd07e3c1fb500b34f9"
+   },
+   {
+    "path": "code/tokenizer/merges.txt",
+    "role": "data",
+    "sha256": "599bab54075088774b1733fde865d5bd747cbcc7a547c5bc12610e874e26f5e3"
+   },
+   {
+    "path": "code/tokenizer/vocab.json",
+    "role": "data",
+    "sha256": "ca10d7e9fb3ed18575dd1e277a2579c16d108e32f27439684afa0e10b1440910"
+   },
+   {
+    "path": "data/docs.jsonl",
+    "role": "data",
+    "sha256": "0c5e062c952d2548de226383906711fbeeeab3382f624fd3cadc71c203a17404"
+   }
+  ],
+  "id": "synapsek-knowledge-encoder-v3b-seed1",
+  "kind": "pipeline"
+ },
+ "svc_version": "0.1.0"
+}

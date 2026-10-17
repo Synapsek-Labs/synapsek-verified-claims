@@ -1,0 +1,779 @@
+{
+  "attest_version": "1.1.0",
+  "issued_at": "2026-10-15T14:03:19Z",
+  "issuer": {
+    "compiler_id": "synapsek.compiler/v1",
+    "compiler_version": "1.1.0",
+    "public_key": "MHYuRK-KEKtx3w-MQYnEJ7oiHWWJsJfP0WzNwn_Fi1M"
+  },
+  "supersedes": "synapsek-cartridge-v0.attestation.json",
+  "cartridge": {
+    "id": "synapsek.cartridge/v0-hotpotqa",
+    "name": "Knowledge Cartridge v0 (HotpotQA-trained universal latent)",
+    "blob_format": "knowledge-latent-v1",
+    "K": 128,
+    "d_latent": 256,
+    "soft_tokens": 64,
+    "compression_ratio_nominal": 22.0,
+    "encoder": {
+      "type": "PerceiverResampler",
+      "d_model": 256,
+      "nhead": 4,
+      "num_layers": 2,
+      "ff": 512,
+      "chunk_size": 2048,
+      "max_doc_tokens": 8192,
+      "per_seed_sha256": [
+        "e6dc1af2556d469978db7cde1549dc90bb53b453b8c0c52ab95f25f66c8b134f",
+        "8215488e38dbf0b0c19d7312f08816f6677635bf0191966359343511112b77c9",
+        "469b3a527ff6ced5a9362038bdf7003bcb7715efa9fb0501aaa2a7f58eb11550"
+      ]
+    },
+    "readers": [
+      {
+        "family": "Qwen/Qwen2.5-1.5B",
+        "kind": "crossattn",
+        "Kp": 64,
+        "nhead": 4,
+        "num_layers": 1,
+        "per_seed_sha256": [
+          "ac7bc1beb7bde8eac8ec1cb739fc795c77bedb436da9440cc8371c93d0485de5",
+          "8198009245bb1673d4cb416f133077bd7ad783ebd7be02e0bfe622cadb8dfc1f",
+          "3af0428fd821d2981adf5ac5864f80d2dff49c055ab7685d5a4e9e0c1c3de18e"
+        ]
+      },
+      {
+        "family": "HuggingFaceTB/SmolLM2-1.7B",
+        "kind": "crossattn",
+        "Kp": 64,
+        "nhead": 4,
+        "num_layers": 1,
+        "per_seed_sha256": [
+          "4ab6ab536ba2ee1a8582cf0539c65d74692594a4427739963a94b3d46f07d438",
+          "3c9ba4cb0bb8b9fdc51258a078e36fdf9ec60bd1ef5a7a201dc2f84bfeaf12f2",
+          "da0fa6fe60f1267c3e96906f7f6b01ca5aeab6e4658111e8a03fc91e24a24ff1"
+        ]
+      }
+    ],
+    "seeds": [
+      1,
+      2,
+      3
+    ]
+  },
+  "cartridge_additional_readers": [
+    {
+      "family": "Qwen2.5-7B-Instruct",
+      "file_name": "reader_newfamily.pt",
+      "kind": "crossattn",
+      "Kp": 64,
+      "nhead": 4,
+      "num_layers": 1,
+      "training": "frozen attested encoder, v0 recipe (1000 steps, lr 1e-4)",
+      "per_seed_sha256": [
+        "63585d8e8a81bb8ae0423dcfe2e3b25245abde813f8e8f2a52b64c4338fb6d8b",
+        "3d9fa8269a982cd6114adb42d2b5ac2103f62dad19924f1f50e876bc90139031",
+        "13a5c48dbebe112919840f35c42312e98707021881e442c213af727feb4aec79"
+      ],
+      "seeds_covered": [
+        1,
+        2,
+        3
+      ]
+    }
+  ],
+  "provenance": {
+    "corpus": {
+      "name": "hotpotqa",
+      "sha256": "bece68f0809d97880570f7597a42c4e23520f4105befcb2f06d2b49fe17445c7",
+      "train_items": 795
+    },
+    "recipe": "gen-trained reader: KL(P(.|[soft,q])||P(.|[doc,q])) + 0.5*gold-NLL + 0.01*soft-L2; per-family LR (enc 3e-5, readers 1e-4), warmup 100, cosine decay",
+    "training": {
+      "steps": 1000,
+      "batch_size": 2
+    }
+  },
+  "fidelity": {
+    "dimensions": [
+      {
+        "name": "extractive_qa",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "protocol": {
+          "benchmark": "hotpotqa",
+          "offset": 795,
+          "n_items_per_seed": 100,
+          "decoding": "greedy",
+          "max_new_tokens": 24,
+          "metric": "token_f1"
+        },
+        "raw_f1_mean": 16.5,
+        "artifact_f1_per_seed": [
+          9.78,
+          9.13,
+          9.32
+        ],
+        "artifact_f1_mean": 9.41,
+        "artifact_f1_sd": 0.27,
+        "fidelity_ratio": 0.57,
+        "evidence": [
+          {
+            "trace_file": "A_seed1.jsonl",
+            "sha256": "8ab767f1ae711a8c03fbf40e20bfbf3c3258f1c8fb9f780719aa824c6be9ed80",
+            "merkle_root": "f8a668f4046b5ae5f95c89c1896911b658b3177b2c36dfbc77facd4013d2a688",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.78,
+            "art_em_pct": 2.0
+          },
+          {
+            "trace_file": "A_seed2.jsonl",
+            "sha256": "9c96aad18279da1d339c4fbb0a9c5ee5015fe09c67ea71417645cc67aa01f260",
+            "merkle_root": "ebb835493b15ef35e03e255f98ae45efaf20263a21ab062c1bac0fc28a8f1589",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.13,
+            "art_em_pct": 2.0
+          },
+          {
+            "trace_file": "A_seed3.jsonl",
+            "sha256": "7bcb6ce26a419fb91edb9253c2426fcfef2a1b13b9f0836966aae7a25ed2eab9",
+            "merkle_root": "04cb8a5afb3d2a106e25ab438a6e81560cefbb67136c0e570942e1421e50ccb0",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.32,
+            "art_em_pct": 3.0
+          }
+        ]
+      },
+      {
+        "name": "extractive_qa",
+        "family": "HuggingFaceTB/SmolLM2-1.7B",
+        "protocol": {
+          "benchmark": "hotpotqa",
+          "offset": 795,
+          "n_items_per_seed": 100,
+          "decoding": "greedy",
+          "max_new_tokens": 24,
+          "metric": "token_f1"
+        },
+        "raw_f1_mean": 12.56,
+        "artifact_f1_per_seed": [
+          6.24,
+          7.9,
+          8.09
+        ],
+        "artifact_f1_mean": 7.41,
+        "artifact_f1_sd": 0.83,
+        "fidelity_ratio": 0.59,
+        "evidence": [
+          {
+            "trace_file": "B_seed1.jsonl",
+            "sha256": "2172bcb06f36e8d59e7af38c0ca6646f4bc06643e3eee5fccfcbaa34aead72e0",
+            "merkle_root": "ec0991f799f51ae2ecd8dfd500830ce01e664668ec42f833c94ddc9df3c0bdb8",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 6.24,
+            "art_em_pct": 0.0
+          },
+          {
+            "trace_file": "B_seed2.jsonl",
+            "sha256": "29ca344b03b0e68ed645c075c74a92e065bf70c04da8a7a7389b1767a2dc33c3",
+            "merkle_root": "271bbfccb02a4feb6efd1b930b990b8c2bbd1e23ac6923f1f4c420436cad29f2",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 7.9,
+            "art_em_pct": 0.0
+          },
+          {
+            "trace_file": "B_seed3.jsonl",
+            "sha256": "110c302dca11083c05da56973be1b0f36bc29593a8dde27863d5dff68195b9cd",
+            "merkle_root": "4f7d531ddc9cea3a59f2c8efdb9e3b7b63280568cd96fd35ed22cf5ca570b6fd",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 8.09,
+            "art_em_pct": 0.0
+          }
+        ]
+      }
+    ]
+  },
+  "qualification": {
+    "gate": "G1-G6 (2026-10-15)",
+    "v0_qa_dimensions": [
+      {
+        "name": "extractive_qa",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "protocol": {
+          "benchmark": "hotpotqa",
+          "offset": 795,
+          "n_items_per_seed": 100,
+          "decoding": "greedy",
+          "max_new_tokens": 24,
+          "metric": "token_f1"
+        },
+        "raw_f1_mean": 16.5,
+        "artifact_f1_per_seed": [
+          9.78,
+          9.13,
+          9.32
+        ],
+        "artifact_f1_mean": 9.41,
+        "artifact_f1_sd": 0.27,
+        "fidelity_ratio": 0.57,
+        "evidence": [
+          {
+            "trace_file": "A_seed1.jsonl",
+            "sha256": "8ab767f1ae711a8c03fbf40e20bfbf3c3258f1c8fb9f780719aa824c6be9ed80",
+            "merkle_root": "f8a668f4046b5ae5f95c89c1896911b658b3177b2c36dfbc77facd4013d2a688",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.78,
+            "art_em_pct": 2.0
+          },
+          {
+            "trace_file": "A_seed2.jsonl",
+            "sha256": "9c96aad18279da1d339c4fbb0a9c5ee5015fe09c67ea71417645cc67aa01f260",
+            "merkle_root": "ebb835493b15ef35e03e255f98ae45efaf20263a21ab062c1bac0fc28a8f1589",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.13,
+            "art_em_pct": 2.0
+          },
+          {
+            "trace_file": "A_seed3.jsonl",
+            "sha256": "7bcb6ce26a419fb91edb9253c2426fcfef2a1b13b9f0836966aae7a25ed2eab9",
+            "merkle_root": "04cb8a5afb3d2a106e25ab438a6e81560cefbb67136c0e570942e1421e50ccb0",
+            "n_items": 100,
+            "raw_f1_mean": 16.5,
+            "art_f1_mean": 9.32,
+            "art_em_pct": 3.0
+          }
+        ]
+      },
+      {
+        "name": "extractive_qa",
+        "family": "HuggingFaceTB/SmolLM2-1.7B",
+        "protocol": {
+          "benchmark": "hotpotqa",
+          "offset": 795,
+          "n_items_per_seed": 100,
+          "decoding": "greedy",
+          "max_new_tokens": 24,
+          "metric": "token_f1"
+        },
+        "raw_f1_mean": 12.56,
+        "artifact_f1_per_seed": [
+          6.24,
+          7.9,
+          8.09
+        ],
+        "artifact_f1_mean": 7.41,
+        "artifact_f1_sd": 0.83,
+        "fidelity_ratio": 0.59,
+        "evidence": [
+          {
+            "trace_file": "B_seed1.jsonl",
+            "sha256": "2172bcb06f36e8d59e7af38c0ca6646f4bc06643e3eee5fccfcbaa34aead72e0",
+            "merkle_root": "ec0991f799f51ae2ecd8dfd500830ce01e664668ec42f833c94ddc9df3c0bdb8",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 6.24,
+            "art_em_pct": 0.0
+          },
+          {
+            "trace_file": "B_seed2.jsonl",
+            "sha256": "29ca344b03b0e68ed645c075c74a92e065bf70c04da8a7a7389b1767a2dc33c3",
+            "merkle_root": "271bbfccb02a4feb6efd1b930b990b8c2bbd1e23ac6923f1f4c420436cad29f2",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 7.9,
+            "art_em_pct": 0.0
+          },
+          {
+            "trace_file": "B_seed3.jsonl",
+            "sha256": "110c302dca11083c05da56973be1b0f36bc29593a8dde27863d5dff68195b9cd",
+            "merkle_root": "4f7d531ddc9cea3a59f2c8efdb9e3b7b63280568cd96fd35ed22cf5ca570b6fd",
+            "n_items": 100,
+            "raw_f1_mean": 12.56,
+            "art_f1_mean": 8.09,
+            "art_em_pct": 0.0
+          }
+        ]
+      }
+    ],
+    "gist_dimensions": [
+      {
+        "name": "topic",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "metric": "acc_pct",
+        "threshold": {
+          "type": "min",
+          "value": 50.0,
+          "ratio_of": {
+            "companion": "raw_acc_pct",
+            "min": 0.7
+          },
+          "desc": "topic discrimination: artifact acc >= 50% (2x random) AND >= 70% of raw-doc acc"
+        },
+        "measured": 22.67,
+        "measured_companion": 89.33,
+        "claim_rule": "apply(threshold, measured, companion)",
+        "claim_proven": false,
+        "per_seed": [
+          {
+            "seed": 0,
+            "enc": "encoder.pt",
+            "raw_acc_pct": 94.0,
+            "artifact_acc_pct": 20.0
+          },
+          {
+            "seed": 1,
+            "enc": "encoder.pt",
+            "raw_acc_pct": 80.0,
+            "artifact_acc_pct": 20.0
+          },
+          {
+            "seed": 2,
+            "enc": "encoder.pt",
+            "raw_acc_pct": 94.0,
+            "artifact_acc_pct": 28.0
+          }
+        ],
+        "evidence": [
+          {
+            "trace_file": "topic_disc_seed0.jsonl",
+            "sha256": "c8bed5e1af41b7066d45000772349206978e5c25fbc0025a8e5ffaf064a9e353",
+            "merkle_root": "998ceb55b993a7d828dfa7d129ea90e70c889db7dfb335683ac636145f4d3e4f",
+            "n_items": 50
+          },
+          {
+            "trace_file": "topic_disc_seed1.jsonl",
+            "sha256": "542a2f0239b65bb4fede54ecd0691cff575423f0462da27dd4ba843f0014ee03",
+            "merkle_root": "055dd5973ff7f63aeecf59cbbde196c2e5bcd989928027c14d77f022ce8b5e3f",
+            "n_items": 50
+          },
+          {
+            "trace_file": "topic_disc_seed2.jsonl",
+            "sha256": "ef0d0563fea6ac1d462f6bd1a6641938ca5343faad827b3beec125d7c45d0617",
+            "merkle_root": "885b6d6434ea43eaad63ef7e86c8f72b86e7d8568f49a326ef4752ead5e784eb",
+            "n_items": 50
+          }
+        ]
+      },
+      {
+        "name": "dedup",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "metric": "spearman",
+        "threshold": {
+          "type": "min",
+          "value": 0.4,
+          "desc": "blob-vs-text similarity Spearman >= 0.40"
+        },
+        "measured": 0.12237821390821048,
+        "measured_companion": null,
+        "claim_rule": "apply(threshold, measured, companion)",
+        "claim_proven": false,
+        "per_seed": [
+          {
+            "spearman_rho": 0.15096387680419038,
+            "auc_highlow": 0.564215825195931,
+            "n_pairs": 4950
+          },
+          {
+            "spearman_rho": 0.10729164264620748,
+            "auc_highlow": 0.5432285755704235,
+            "n_pairs": 4950
+          },
+          {
+            "spearman_rho": 0.1088791222742336,
+            "auc_highlow": 0.5449075065658617,
+            "n_pairs": 4950
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "name": "retrieval",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "metric": "recall_at_5_pct",
+        "threshold": {
+          "type": "min",
+          "value": 25.0,
+          "desc": "pre-filter R@5 (absolute %) >= 25 (5x random 5%)"
+        },
+        "measured": 9.333333333333334,
+        "measured_companion": null,
+        "claim_rule": "apply(threshold, measured, companion)",
+        "claim_proven": false,
+        "per_seed": [
+          {
+            "1": 2.0,
+            "5": 10.0,
+            "10": 20.0,
+            "20": 40.0,
+            "random_expect": {
+              "1": 1.0,
+              "5": 5.0,
+              "10": 10.0,
+              "20": 20.0
+            },
+            "raw_baseline_10q10c": {
+              "1": 30.0,
+              "5": 70.0,
+              "10": 100.0
+            }
+          },
+          {
+            "1": 2.0,
+            "5": 10.0,
+            "10": 20.0,
+            "20": 40.0,
+            "random_expect": {
+              "1": 1.0,
+              "5": 5.0,
+              "10": 10.0,
+              "20": 20.0
+            },
+            "raw_baseline_10q10c": {
+              "1": 30.0,
+              "5": 70.0,
+              "10": 100.0
+            }
+          },
+          {
+            "1": 2.0,
+            "5": 8.0,
+            "10": 18.0,
+            "20": 38.0,
+            "random_expect": {
+              "1": 1.0,
+              "5": 5.0,
+              "10": 10.0,
+              "20": 20.0
+            },
+            "raw_baseline_10q10c": {
+              "1": 30.0,
+              "5": 70.0,
+              "10": 100.0
+            }
+          }
+        ],
+        "evidence": []
+      },
+      {
+        "name": "summarize",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "metric": "rouge1",
+        "threshold": {
+          "type": "min",
+          "value": 0.2,
+          "desc": "blob-summary ROUGE-1 vs raw summary >= 0.20"
+        },
+        "measured": 0.12277371176799239,
+        "measured_companion": null,
+        "claim_rule": "apply(threshold, measured, companion)",
+        "claim_proven": false,
+        "per_seed": [
+          {
+            "rouge1": 0.18251049137174852,
+            "rouge2": 0.030310580076462795,
+            "f1": 0.18251049137174852
+          },
+          {
+            "rouge1": 0.18581064393222863,
+            "rouge2": 0.029914641273876153,
+            "f1": 0.18581064393222863
+          },
+          {
+            "rouge1": 0.0,
+            "rouge2": 0.0,
+            "f1": 0.0
+          }
+        ],
+        "evidence": []
+      }
+    ],
+    "new_family_dimensions": [
+      {
+        "name": "extractive_qa",
+        "family": "Qwen2.5-7B-Instruct",
+        "artifact_f1_mean": 7.5,
+        "artifact_f1_per_seed": [
+          8.37,
+          6.58,
+          7.55
+        ],
+        "portability": "trained on FROZEN attested encoder (same latent space)",
+        "evidence": [
+          {
+            "trace_file": "q7b_seed1.jsonl",
+            "sha256": "44ca968afdc50bb034dc8290d401fd66b497efa07424d4f2a108f3fc0efaa1d2",
+            "merkle_root": "b8399732701a9812ca8c8a93c4a7f858a995af4f1c3fc28fffee8573eefed65f",
+            "n_items": 100,
+            "art_f1_mean": 8.37,
+            "raw_f1_mean": 14.03
+          },
+          {
+            "trace_file": "q7b_seed2.jsonl",
+            "sha256": "dbe44c8771d5694291e88270b7ffad55a61c85b7a47fc7b1d1b9eb4c810c2ec9",
+            "merkle_root": "722cb6221f78020802ca51e6c5c02af886d7454149e358b0100a70eaf9e7586d",
+            "n_items": 100,
+            "art_f1_mean": 6.58,
+            "raw_f1_mean": 14.03
+          },
+          {
+            "trace_file": "q7b_seed3.jsonl",
+            "sha256": "7d2f5a8019848dae0955435307bbb1f12c8d9f16aa3f546ffa79e465af4a553e",
+            "merkle_root": "1c446451f4069faa1d357807eb427633565316bcfcc53df4a3d4b551612b4d4f",
+            "n_items": 100,
+            "art_f1_mean": 7.55,
+            "raw_f1_mean": 14.03
+          }
+        ]
+      }
+    ],
+    "domain_dimensions": [
+      {
+        "name": "squad",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "domain_shift": true,
+        "note": "SQuAD (Wikipedia sections; unseen domain). Dedup PASSES here (spearman 0.431, AUC 0.707) vs 0.122 on the HotpotQA primary domain -> domain-conditional, not a universal claim. QA sanity on same domain: raw 40.8 vs artifact 5.3 F1 (13% fidelity) = documented out-of-domain collapse; cartridge QA is HotpotQA-domain-bound.",
+        "topic_f1": 0.0169,
+        "per_seed": [
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.026666666666666665
+            },
+            "dedup": {
+              "spearman_rho": 0.4079568648015339,
+              "auc_highlow": 0.6970350780532599,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.16227676077919004,
+              "rouge2": 0.011831241860454091,
+              "f1": 0.16227676077919004
+            }
+          },
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.024166666666666666
+            },
+            "dedup": {
+              "spearman_rho": 0.43044954703505534,
+              "auc_highlow": 0.7049297826752372,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.17423535762714215,
+              "rouge2": 0.014960178162109185,
+              "f1": 0.17423535762714215
+            }
+          },
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.0
+            },
+            "dedup": {
+              "spearman_rho": 0.45429686121042256,
+              "auc_highlow": 0.7193105193347618,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.0,
+              "rouge2": 0.0,
+              "f1": 0.0
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "trace_file": "squad/topic_seed0.jsonl",
+            "sha256": "c1dc4ab0c064f6cd0e1119035d5c3f2bfb8ff49fee0878e5a83c7aa3b836aef4",
+            "merkle_root": "349260f7a3e2ba46b590701f66457655802b60ed9c24798fc199dac219945fb4",
+            "n_items": 100
+          },
+          {
+            "trace_file": "squad/summarize_seed0.jsonl",
+            "sha256": "8f2e44325a361c360671ca0e93843935c35303ee7c2080d6bdf3f930265a2855",
+            "merkle_root": "448c7c9ae1866756dab6593b34fb0452795b7a045a944eb0ef3ec7e4a917aa0c",
+            "n_items": 100
+          },
+          {
+            "trace_file": "squad/topic_seed1.jsonl",
+            "sha256": "aa00c01ffa290315209ac69898eb71250cc5079843c990134314c3eb73dec604",
+            "merkle_root": "232e55fc91ce07d96577df85a51411c6da8902c46e295e367cbffb5bb20f0178",
+            "n_items": 100
+          },
+          {
+            "trace_file": "squad/summarize_seed1.jsonl",
+            "sha256": "2a6c3c7e2aac2a6f8849a522bfa81b56be16a3aec4b76b1a3f29c060d0dc4f65",
+            "merkle_root": "6470bde1f1bada589abd0157f307b65237e49ac86b55b11f0ae644114162d7b8",
+            "n_items": 100
+          },
+          {
+            "trace_file": "squad/topic_seed2.jsonl",
+            "sha256": "a2ee0d68ead72e1942f59da9a7fac3a8b9855b1d4a57ac32a5ed7e155a356cd9",
+            "merkle_root": "2b1c2b3d8b4ea1cb84f24b3e1f7d5eb739f39b994fe8d7494c2999f134e0a715",
+            "n_items": 100
+          },
+          {
+            "trace_file": "squad/summarize_seed2.jsonl",
+            "sha256": "a4ce94b3a7ac8f0afeeca0f4eeb81c72b5e3a5f8b18dfaf4b6fc268b50d5a9ab",
+            "merkle_root": "bb70402460dae1b12429e89e90e9be9f0072cf54536147011f7b002942a4e3db",
+            "n_items": 100
+          }
+        ]
+      },
+      {
+        "name": "gutenberg_books",
+        "family": "Qwen/Qwen2.5-1.5B",
+        "domain_shift": true,
+        "note": "Gutenberg public-domain book chapters (gist-only corpus; placeholder QA, QA dims not requested). Long-form prose domain: topic/dedup/summarize measured as-is.",
+        "topic_f1": 0.413,
+        "per_seed": [
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.6200488590693194
+            },
+            "dedup": {
+              "spearman_rho": 0.4356798517402266,
+              "auc_highlow": 0.718292419140904,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.2310848011966382,
+              "rouge2": 0.0429724443812586,
+              "f1": 0.2310848011966382
+            }
+          },
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.6190488590693194
+            },
+            "dedup": {
+              "spearman_rho": 0.4339649020952076,
+              "auc_highlow": 0.7164478726660545,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.23924488532069962,
+              "rouge2": 0.03960129253624532,
+              "f1": 0.23924488532069962
+            }
+          },
+          {
+            "topic": {
+              "em_pct": 0.0,
+              "f1": 0.0
+            },
+            "dedup": {
+              "spearman_rho": 0.43015595636030707,
+              "auc_highlow": 0.7141068054280175,
+              "n_pairs": 4950
+            },
+            "summarize": {
+              "rouge1": 0.0,
+              "rouge2": 0.0,
+              "f1": 0.0
+            }
+          }
+        ],
+        "evidence": [
+          {
+            "trace_file": "gutenberg_books/topic_seed0.jsonl",
+            "sha256": "52526f9537ade6c21b27205d4809d9fc07c4328b17253dcb92527ff381466edd",
+            "merkle_root": "3042b39e72408a64326fbffbaa58ae756933567ce54f4d2bc4d54c5e8fea7f14",
+            "n_items": 100
+          },
+          {
+            "trace_file": "gutenberg_books/summarize_seed0.jsonl",
+            "sha256": "f6a061ace49b24a0389dec679c1c34c1f1d600106bbec28058b5d1392a3875dc",
+            "merkle_root": "e1b7bd4756f9b39605046509d6e3c1e96dcec55bd9f036f394b9e9a1f8441693",
+            "n_items": 100
+          },
+          {
+            "trace_file": "gutenberg_books/topic_seed1.jsonl",
+            "sha256": "b03081117b863b0c674e0933e1f7c92846a1e374d1eed126108bc0c871e8991c",
+            "merkle_root": "1ebd925c5ba65c542c1bae243e6a29c524bb12f58841811989ed8b7957e6923e",
+            "n_items": 100
+          },
+          {
+            "trace_file": "gutenberg_books/summarize_seed1.jsonl",
+            "sha256": "06962886b6e6fc2fc98b537e145ebc22ebd52c413ee5dbb6608c59c264216c58",
+            "merkle_root": "7edff2cf8ea91cd6b369f87807e020bd5a283363b410a17597ea5c3121b0b4d0",
+            "n_items": 100
+          },
+          {
+            "trace_file": "gutenberg_books/topic_seed2.jsonl",
+            "sha256": "b6b3bca6fbdcd552f269bd6836ac003e0ff34223eb5af2347a79e9d0b370fbf5",
+            "merkle_root": "0f1f409cd757132c970348dfc75dcb8f8f3ab7a335af54244722dc88b7c51674",
+            "n_items": 100
+          },
+          {
+            "trace_file": "gutenberg_books/summarize_seed2.jsonl",
+            "sha256": "6a21ddc85025604ae37e921d31307a94b1754bf25d5ba03b3bab156cb822673a",
+            "merkle_root": "dad01ebb6cfb3f698988648deb284cb653e0b045aabfa413f0dcfc7ece51a158",
+            "n_items": 100
+          }
+        ]
+      }
+    ],
+    "thresholds": {
+      "topic": {
+        "type": "min",
+        "value": 50.0,
+        "ratio_of": {
+          "companion": "raw_acc_pct",
+          "min": 0.7
+        },
+        "desc": "topic discrimination: artifact acc >= 50% (2x random) AND >= 70% of raw-doc acc"
+      },
+      "dedup": {
+        "type": "min",
+        "value": 0.4,
+        "desc": "blob-vs-text similarity Spearman >= 0.40"
+      },
+      "retrieval": {
+        "type": "min",
+        "value": 25.0,
+        "desc": "pre-filter R@5 (absolute %) >= 25 (5x random 5%)"
+      },
+      "summarize": {
+        "type": "min",
+        "value": 0.2,
+        "desc": "blob-summary ROUGE-1 vs raw summary >= 0.20"
+      }
+    }
+  },
+  "claims": {
+    "universal_latent": {
+      "proven": true,
+      "families": [
+        "Qwen/Qwen2.5-1.5B",
+        "HuggingFaceTB/SmolLM2-1.7B",
+        "Qwen2.5-7B-Instruct"
+      ],
+      "note": "one encoder latent decoded by both families"
+    },
+    "model_agnostic": true,
+    "compression_ratio_nominal": 22.0,
+    "recommended_for": [],
+    "not_recommended_for": [
+      "coarse_retrieval_pre_filter",
+      "dedup_similarity",
+      "multi_hop_reasoning",
+      "precise_extractive_qa",
+      "summarization",
+      "topic_classification_routing"
+    ],
+    "honest_note": "22x lossy compression preserves document gist but destroys fine-grained facts; ~1/3 of raw QA value retained (probe: real 12.4 vs random 10.0 vs zero 11.1 F1). v1.1: claims derived from measured G1 thresholds; domain-shift measurements in qualification.domain_dimensions."
+  },
+  "signature": "XGGfgFea1S1xfyslw4LxArZUnB7eNiceHwZTdWkgqgEd0Phkz6Q_7iTUdYpqg7_s5fpVo8Z0lsedA7f4IK3BBA"
+}

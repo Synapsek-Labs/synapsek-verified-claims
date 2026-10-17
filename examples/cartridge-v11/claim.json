@@ -1,0 +1,306 @@
+{
+ "claim_id": "synapsek.claim/synapsek-cartridge/v1.1",
+ "claims": [
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.gist_dimensions.0.measured"
+   },
+   "id": "gist_topic",
+   "label": "topic_classification_routing",
+   "metric": "v0 gist topic (attested v0 baseline)",
+   "status": "not_proven",
+   "threshold": {
+    "min": 50.0
+   },
+   "unit": "score",
+   "value": 22.67
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.gist_dimensions.1.measured"
+   },
+   "id": "gist_dedup",
+   "label": "dedup_similarity",
+   "metric": "v0 gist dedup (attested v0 baseline)",
+   "status": "not_proven",
+   "threshold": {
+    "min": 0.4
+   },
+   "unit": "score",
+   "value": 0.12237821390821048
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.gist_dimensions.2.measured"
+   },
+   "id": "gist_retrieval",
+   "label": "coarse_retrieval_pre_filter",
+   "metric": "v0 gist retrieval (attested v0 baseline)",
+   "status": "not_proven",
+   "threshold": {
+    "min": 25.0
+   },
+   "unit": "score",
+   "value": 9.333333333333334
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.gist_dimensions.3.measured"
+   },
+   "id": "gist_summarize",
+   "label": "summarization",
+   "metric": "v0 gist summarize (attested v0 baseline)",
+   "status": "not_proven",
+   "threshold": {
+    "min": 0.2
+   },
+   "unit": "score",
+   "value": 0.12277371176799239
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/A_seed1.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_qwen_s1",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (Qwen2.5-1.5B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.09
+   },
+   "unit": "token_f1_01",
+   "value": 0.097809
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/A_seed2.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_qwen_s2",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (Qwen2.5-1.5B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.09
+   },
+   "unit": "token_f1_01",
+   "value": 0.09135
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/A_seed3.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_qwen_s3",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (Qwen2.5-1.5B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.09
+   },
+   "unit": "token_f1_01",
+   "value": 0.093232
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/B_seed1.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_smol_s1",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (SmolLM2-1.7B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.06
+   },
+   "unit": "token_f1_01",
+   "value": 0.062352
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/B_seed2.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_smol_s2",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (SmolLM2-1.7B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.06
+   },
+   "unit": "token_f1_01",
+   "value": 0.078976
+  },
+  {
+   "derivation": {
+    "evidence": "evidence/B_seed3.jsonl",
+    "rule": "field:art_f1|mean",
+    "tolerance": 0.01
+   },
+   "id": "qa_smol_s3",
+   "label": "extractive_qa_fidelity",
+   "metric": "artifact QA token-F1 mean, 0-1 scale (SmolLM2-1.7B, hotpotqa offset 795, n=100/seed, greedy)",
+   "status": "proven",
+   "threshold": {
+    "min": 0.06
+   },
+   "unit": "token_f1_01",
+   "value": 0.080914
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.new_family_dimensions.0.artifact_f1_per_seed.0",
+    "tolerance": 0.01
+   },
+   "id": "qa_7b_s1",
+   "label": "cross_family_qa_fidelity",
+   "metric": "artifact QA token-F1 (Qwen2.5-7B-Instruct, cross-family portability)",
+   "status": "proven",
+   "threshold": {
+    "min": 5.0
+   },
+   "unit": "token_f1_pct (0-100, as recorded in attestation)",
+   "value": 8.37
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.new_family_dimensions.0.artifact_f1_per_seed.1",
+    "tolerance": 0.01
+   },
+   "id": "qa_7b_s2",
+   "label": "cross_family_qa_fidelity",
+   "metric": "artifact QA token-F1 (Qwen2.5-7B-Instruct, cross-family portability)",
+   "status": "proven",
+   "threshold": {
+    "min": 5.0
+   },
+   "unit": "token_f1_pct (0-100, as recorded in attestation)",
+   "value": 6.58
+  },
+  {
+   "derivation": {
+    "evidence": "attestation/v1.1.json",
+    "rule": "attested:qualification.new_family_dimensions.0.artifact_f1_per_seed.2",
+    "tolerance": 0.01
+   },
+   "id": "qa_7b_s3",
+   "label": "cross_family_qa_fidelity",
+   "metric": "artifact QA token-F1 (Qwen2.5-7B-Instruct, cross-family portability)",
+   "status": "proven",
+   "threshold": {
+    "min": 5.0
+   },
+   "unit": "token_f1_pct (0-100, as recorded in attestation)",
+   "value": 7.55
+  }
+ ],
+ "created_at": "2026-10-17T07:32:23Z",
+ "disclosures": [
+  "The 4 gist dimensions are the ATTESTED v0 baseline, all BELOW the pre-registered G1 bars (topic 22.67 vs >=50, dedup 0.122 vs >=0.4, retrieval R@5 9.33 vs >=25, summarize 0.123 vs >=0.20). They are recorded as not_proven on purpose: this is what an honest claim looks like. The improved v3b dedup number (0.4172) is attested separately in examples/pipeline-dedup.",
+  "Scale conventions: Qwen/SmolLM QA claims use 0-1 scale (per-item trace values; Qwen floor 0.09 = 54.5% of raw 0.165, attested ratio 0.57; SmolLM floor 0.06 = 47.8% of raw 0.1256, attested ratio 0.59). 7B claims use the 0-100 percent scale exactly as recorded in the attestation (floor 5.0 = portability sanity, no 7B raw baseline in v1.1). 'proven' means the number re-derives from pinned evidence at/above the floor -- it does NOT mean the artifact replaces the raw document for QA.",
+  "7B cross-family numbers come from the pinned attestation document (per-item 7B traces ship in the G4 clean-room bundle, not in this claim dir). Threshold 5.0 is a portability sanity floor; no 7B raw baseline was re-measured in v1.1.",
+  "Full model-level rerun (regenerate predictions) requires the v1.1 cartridge weights + base models and is documented in the G4 clean-room buyer report; this claim re-derives from the pinned per-item traces."
+ ],
+ "issuer": {
+  "id": "synapsek.compiler/v1",
+  "public_key": "MHYuRK-KEKtx3w-MQYnEJ7oiHWWJsJfP0WzNwn_Fi1M"
+ },
+ "pinned": {
+  "config": {
+   "cartridge": "synapsek-cartridge-v1.1",
+   "families": [
+    "Qwen/Qwen2.5-1.5B",
+    "HuggingFaceTB/SmolLM2-1.7B",
+    "Qwen2.5-7B-Instruct"
+   ],
+   "sha256": "36bb5eb6d8a3e4c84e5c88ee5039c79298275df718d73d9724eba6194e3dc287"
+  },
+  "dataset": {
+   "benchmark": "hotpotqa",
+   "decoding": "greedy",
+   "n_items_per_seed": 100,
+   "offset": 795
+  },
+  "environment": {
+   "note": "attestation wrapper claim: no local rerun; measurement environment is recorded inside attestation/v1.1.json (CUDA A40, pinned model hashes, greedy decoding)"
+  }
+ },
+ "recommendation": {
+  "not_recommended_for": [
+   "topic_classification_routing",
+   "dedup_similarity",
+   "coarse_retrieval_pre_filter",
+   "summarization",
+   "multi_hop_reasoning_full_replacement"
+  ],
+  "recommended_for": [
+   "cross_family_qa_fidelity",
+   "extractive_qa_fidelity"
+  ]
+ },
+ "signature": "zsUdBBSBXsTM6zt3Sl7zvjBQp1vHjxmENDcxjISly_XikHO52XiPJ1dmuKs0jzZWae_igoceW1353b7yS6avAQ",
+ "subject": {
+  "base_dir": ".",
+  "description": "Synapsek knowledge cartridge v1.1: 2-layer 256-d knowledge encoder (K=128 latents) + 4-layer cross-attention reader adapters, adapter-only (no base-model retrain), verified on Qwen2.5-1.5B, SmolLM2-1.7B and Qwen2.5-7B-Instruct. This claim WRAPS the v1.1 attestation: the 4 v0 gist dimensions are recorded as NOT PROVEN (below pre-registered bars, honest disclosure) and the 9 QA-fidelity numbers are re-derived from the pinned per-item traces.",
+  "evidence": [
+   {
+    "merkle_root": "f8a668f4046b5ae5f95c89c1896911b658b3177b2c36dfbc77facd4013d2a688",
+    "n_items": 100,
+    "path": "evidence/A_seed1.jsonl",
+    "sha256": "8ab767f1ae711a8c03fbf40e20bfbf3c3258f1c8fb9f780719aa824c6be9ed80"
+   },
+   {
+    "merkle_root": "ebb835493b15ef35e03e255f98ae45efaf20263a21ab062c1bac0fc28a8f1589",
+    "n_items": 100,
+    "path": "evidence/A_seed2.jsonl",
+    "sha256": "9c96aad18279da1d339c4fbb0a9c5ee5015fe09c67ea71417645cc67aa01f260"
+   },
+   {
+    "merkle_root": "04cb8a5afb3d2a106e25ab438a6e81560cefbb67136c0e570942e1421e50ccb0",
+    "n_items": 100,
+    "path": "evidence/A_seed3.jsonl",
+    "sha256": "7bcb6ce26a419fb91edb9253c2426fcfef2a1b13b9f0836966aae7a25ed2eab9"
+   },
+   {
+    "merkle_root": "ec0991f799f51ae2ecd8dfd500830ce01e664668ec42f833c94ddc9df3c0bdb8",
+    "n_items": 100,
+    "path": "evidence/B_seed1.jsonl",
+    "sha256": "2172bcb06f36e8d59e7af38c0ca6646f4bc06643e3eee5fccfcbaa34aead72e0"
+   },
+   {
+    "merkle_root": "271bbfccb02a4feb6efd1b930b990b8c2bbd1e23ac6923f1f4c420436cad29f2",
+    "n_items": 100,
+    "path": "evidence/B_seed2.jsonl",
+    "sha256": "29ca344b03b0e68ed645c075c74a92e065bf70c04da8a7a7389b1767a2dc33c3"
+   },
+   {
+    "merkle_root": "4f7d531ddc9cea3a59f2c8efdb9e3b7b63280568cd96fd35ed22cf5ca570b6fd",
+    "n_items": 100,
+    "path": "evidence/B_seed3.jsonl",
+    "sha256": "110c302dca11083c05da56973be1b0f36bc29593a8dde27863d5dff68195b9cd"
+   }
+  ],
+  "files": [
+   {
+    "path": "attestation/v1.1.json",
+    "role": "attestation",
+    "sha256": "fc050e825290f30e6f888778400b547161b8600706eefd8e92893a05bf5404e0"
+   }
+  ],
+  "id": "synapsek-cartridge-v1.1",
+  "kind": "cartridge"
+ },
+ "svc_version": "0.1.0"
+}

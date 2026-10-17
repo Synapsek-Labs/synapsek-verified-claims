@@ -1,0 +1,15 @@
+# python
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+.venv/
+# big example artifact ships as a GitHub release asset
+examples/pipeline-dedup/artifact/encoder.pt
+# svc rerun logs
+.svc_*.log
+# never
+keys/
+*_ed25519
+*.key

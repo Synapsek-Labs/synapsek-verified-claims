@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "synapsek-claims"
+version = "0.1.0"
+description = "SVC — Synapsek Verified Claims: neutral, cryptographic verification of measured claims about AI artifacts and pipelines"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Synapsek Labs" }]
+keywords = ["ai", "attestation", "verification", "reproducibility", "llm", "supply-chain"]
+classifiers = [
+  "License :: OSI Approved :: Apache Software License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Security",
+]
+dependencies = ["cryptography>=41"]
+
+[project.optional-dependencies]
+test = ["pytest>=7"]
+
+[project.scripts]
+svc = "svc.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

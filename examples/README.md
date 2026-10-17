@@ -30,6 +30,15 @@ curl -L -o artifact/encoder.pt \
 
 (The pinned tokenizer files under `code/tokenizer/` are committed.)
 
+`--rerun` re-executes the pinned eval, which needs the pinned environment's
+ML deps: `torch` (CPU) + `transformers`, matching the claim's `pinned.environment`
+block. On a machine without them, verification still runs — but L4b reports
+the re-execution failure explicitly (e.g. `ModuleNotFoundError: No module
+named 'torch'`) while all other layers (signature, integrity, evidence,
+recompute, claims) are still evaluated. That is honest failure, not a silent
+pass: the numbers still re-derive from evidence; only the re-execution is
+skipped-by-environment, and the report says so.
+
 ## cartridge-v11
 
 The Synapsek knowledge cartridge v1.1 wrapped through the same pipeline:
